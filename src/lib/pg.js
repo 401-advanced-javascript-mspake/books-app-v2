@@ -1,6 +1,5 @@
 'use strict';
 
-const superagent = require('superagent');
 const pg = require('pg');
 
 // Database Setup
@@ -26,12 +25,10 @@ function getBooks(request, response, next) {
 function getBook(request, response, next) {
   getBookshelves()
     .then(shelves => {
-
       let SQL = 'SELECT books.*, bookshelves.name FROM books INNER JOIN bookshelves on books.bookshelf_id=bookshelves.id WHERE books.id=$1;';
       let values = [request.params.id];
       client.query(SQL, values)
         .then(result => {
-          console.log(shelves.rows)
           response.render('pages/books/show', { book: result.rows[0], bookshelves: shelves.rows })
         })
         .catch(err => next(err));

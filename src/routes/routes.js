@@ -9,8 +9,18 @@ const express = require('express');
 
 const router = express.Router();
 
-//add some kind of switch between mongo and sql
-let routeHandling = mongoHandlers;
+let picker = Math.round(Math.random())
+let routeHandling;
+let db;
+
+if(picker === 0) {
+  routeHandling = mongoHandlers;
+  db = 'mongo';
+}
+if(picker === 1) {
+  routeHandling = pgHandlers;
+  db = 'postgres'
+}
 
 router.get('/', routeHandling.getBooks);
 router.post('/searches', createSearch);
@@ -22,4 +32,4 @@ router.delete('/books/:id', routeHandling.deleteBook);
 
 router.get('*', notFound);
 
-module.exports = router;
+module.exports = {router: router, db: db};

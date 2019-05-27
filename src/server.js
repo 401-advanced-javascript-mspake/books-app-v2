@@ -22,13 +22,13 @@ app.use(methodOverride(methodOverrideCallback))
 app.set('view engine', 'ejs');
 
 // API Routes
-app.use('/', routes);
+app.use('/', routes.router);
 
 app.use(handleError)
 
 let start = (port = process.env.PORT) => {
   app.listen(port, () => {
-    console.log(`Server Up on ${port}`);
+    console.log(`Server Up on ${port}, using ${routes.db} database`);
   });
 };
 
